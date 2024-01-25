@@ -15,7 +15,7 @@ All the requests are sent as plain text and have the following form
 `echo "list /dir/subdir1" | nc localhost 1234`
 
 
-### Setup
+## Setup
 Program takes 2 arguments
 
 1. Port on which the server listens for incoming requests
