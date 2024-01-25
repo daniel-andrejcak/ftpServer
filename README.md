@@ -9,10 +9,10 @@
 
 All the requests are sent as plain text and have the following form
 
->command path
+`command path`
 
 *for example:* 
-`echo "list /dir/subdir1" | nc localhost 1234`
+>echo "list /dir/subdir1" | nc localhost 1234
 
 
 ## Setup
@@ -22,7 +22,7 @@ Program has 2 arguments
 2. Directory whose content is served (server cant operate outside of this directory)
 
 *for example:*
-`java FTPserver 1234 ~/serverHomeDir`
+>java FTPserver 1234 ~/serverHomeDir
 
 
 Server supports communication with multiple clients at once
