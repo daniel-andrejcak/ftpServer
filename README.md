@@ -11,4 +11,5 @@ All the requests are sent as plain text and have the following form
 
 >command path
 
-*for example:* 'echo "list /dir/subdir1" | nc localhost 1234'
+*for example:* 
+'echo "list /dir/subdir1" | nc localhost 1234'
