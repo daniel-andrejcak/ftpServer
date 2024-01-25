@@ -16,7 +16,7 @@ All the requests are sent as plain text and have the following form
 
 
 ## Setup
-Program takes 2 arguments
+Program has 2 arguments
 
 1. Port on which the server listens for incoming requests
 2. Directory whose content is served (server cant operate outside of this directory)
