@@ -13,3 +13,12 @@ All the requests are sent as plain text and have the following form
 
 *for example:* 
 `echo "list /dir/subdir1" | nc localhost 1234`
+
+
+### Setup
+Program takes 2 arguments
+
+1. Port on which the server listens for incoming requests
+2. Directory whose content is served (server cant operate outside of this directory)
+`java FTPserver 1234 ~/serverHomeDir`
+
