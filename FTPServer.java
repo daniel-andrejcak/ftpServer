@@ -34,7 +34,7 @@ public class FTPServer {
     //reader precita to co socket dostal, writer napise to co ma socket poslat naspat
     private static void handleClient(Socket clientSocket, String baseDirectory) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
+             OutputStream outputStream = clientSocket.getOutputStream()) {
 
             String request = reader.readLine();
 
@@ -56,18 +56,17 @@ public class FTPServer {
 
                 switch (command) {
                     case "get":
-                        sendFile(path, writer);
+                        sendFile(path, outputStream);
                         break;
                     case "list":
-                        listDirectory(path, writer);
+                        listDirectory(path, new BufferedWriter(new OutputStreamWriter(outputStream)));
                         break;
                     case "tree":
-                        listTree(path, writer, "");
+                        listTree(path, new BufferedWriter(new OutputStreamWriter(outputStream)), "");
                         break;
                     default:
-                        writer.write("bad request\n");
-                        writer.flush();
-                }
+                        outputStream.write("bad request\n".getBytes());
+                    }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +79,7 @@ public class FTPServer {
         }
     }
 
-    private static void sendFile(String filePath, BufferedWriter writer) throws IOException {
+    private static void sendFile(String filePath, OutputStream writer) throws IOException {
         //try osetri, ked client chce nieco ine ako get file (napriklad get dir je bad request)
         try (BufferedInputStream fileStream = new BufferedInputStream(new FileInputStream(filePath))) {
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -88,13 +87,13 @@ public class FTPServer {
 
             //cita subor po chunkoch velkosti BUFFER_SIZE, writer ich zapise
             while ((bytesRead = fileStream.read(buffer)) != -1) {
-                writer.write(new String(Arrays.copyOf(buffer, bytesRead), "UTF-8"));
+                writer.write(buffer, 0, bytesRead);
             }
 
             writer.flush();
         } 
         catch (FileNotFoundException e) {
-            writer.write("bad request\n");
+            writer.write(new String("bad request\n").getBytes(), 0, 12);
             writer.flush();
         }
     }
